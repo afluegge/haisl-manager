@@ -1,5 +1,6 @@
 {
     "name": "haisl-manager",
+    "description": "A Vacation Home Manager.",
     "version": "0.0.1",
     "license": "",
     "private": true,
