@@ -1,0 +1,41 @@
+language: node_js
+
+node_js:
+    - "12"
+
+sudo: required
+
+services:
+    - xvfb
+
+addons:
+    chrome: stable
+
+env:
+    - NG_CLI_ANALYTICS=false
+
+cache:
+    directories:
+        - "node_modules"
+
+branches:
+    except:
+        - test
+
+git:
+    depth: 5
+
+install:
+    - npm ci
+
+before_script:
+    - export DBUS_SESSION_BUS_ADDRESS=/dev/null
+    - export DISPLAY=:99.0
+    - export CHROME_BIN=chromium-browser
+
+script:
+    - npm run "build server"
+    - npm run "build client"
+    - npm run "test server"
+    - npm run "test client"
+    - npm run "coverage"

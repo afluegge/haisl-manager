@@ -1,0 +1,31 @@
+"""
+The role is a right a person has.
+"""
+type Role {
+
+    "The unique id of the role."
+    id: ID!
+
+    "The name of the role."
+    name: String!
+
+    "The description of the role."
+    description: String!
+
+    "The date and time of the last modification of the role."
+    modified: Date!
+
+    "The date and time when this role record was created."
+    created: Date!
+}
+
+type Query {
+
+    "Returns all roles."
+    allRoles(
+        skip: Int
+        take: Int
+    ): [Role]
+}
+
+scalar Date

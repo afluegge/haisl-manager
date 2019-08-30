@@ -1,0 +1,57 @@
+"""
+The user is a person that can log into the haisl server.
+Users are NOT tenants!
+"""
+type User {
+
+    "The unique id of the user."
+    id: ID!
+
+    "The username of the user.  Must be unique in the system."
+    username: String!
+
+    "The first name of the user."
+    firstName: String!
+
+    "The last name of the user."
+    lastName: String!
+
+    "The email address of the user.  Must be unique in the system. Can be used instead of the username to login."
+    email: String!
+
+    "Optional notes for the user."
+    notes: String
+
+    "Set to 'true' if the user is locked.  A locked user can not login."
+    locked: Boolean
+
+    "A list of the users roles."
+    roles: [Role]
+
+    "The date and time of the last modification of the user."
+    modified: Date!
+
+    "The date and time when this user record was created."
+    created: Date!
+}
+
+type Query {
+
+    "Returns all users. Optionally records can be skipped and taken..."
+    allUsers(
+        skip: Int
+        take: Int
+    ): [User]
+
+    "Returns a user identified by its username."
+    userByName(
+        username: String!
+    ): User
+
+    "Returns a user identified by its email address."
+    userByEmail(
+        email: String!
+    ): User
+}
+
+scalar Date

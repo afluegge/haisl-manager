@@ -1,0 +1,7 @@
+{
+  "extends": "../../tslint.json",
+  "rules": {
+    "directive-selector": [true, "attribute", "haislManager", "camelCase"],
+    "component-selector": [true, "element", "haisl-manager", "kebab-case"]
+  }
+}

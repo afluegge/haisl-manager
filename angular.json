@@ -1,0 +1,288 @@
+{
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "version": 1,
+    "newProjectRoot": "",
+    "projects": {
+        "haisl-manager": {
+            "projectType": "application",
+            "schematics": {
+                "@nrwl/workspace:component": {
+                    "style": "scss"
+                }
+            },
+            "root": "apps/haisl-manager",
+            "sourceRoot": "apps/haisl-manager/src",
+            "prefix": "haisl-manager",
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-angular:browser",
+                    "options": {
+                        "outputPath": "dist/apps/haisl-manager",
+                        "index": "apps/haisl-manager/src/index.html",
+                        "main": "apps/haisl-manager/src/main.ts",
+                        "polyfills": "apps/haisl-manager/src/polyfills.ts",
+                        "tsConfig": "apps/haisl-manager/tsconfig.app.json",
+                        "assets": [
+                            "apps/haisl-manager/src/favicon.ico",
+                            "apps/haisl-manager/src/assets"
+                        ],
+                        "styles": ["apps/haisl-manager/src/styles.scss"],
+                        "scripts": []
+                    },
+                    "configurations": {
+                        "production": {
+                            "fileReplacements": [
+                                {
+                                    "replace": "apps/haisl-manager/src/environments/environment.ts",
+                                    "with": "apps/haisl-manager/src/environments/environment.prod.ts"
+                                }
+                            ],
+                            "optimization": true,
+                            "outputHashing": "all",
+                            "sourceMap": false,
+                            "extractCss": true,
+                            "namedChunks": false,
+                            "aot": true,
+                            "extractLicenses": true,
+                            "vendorChunk": false,
+                            "buildOptimizer": true,
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "2mb",
+                                    "maximumError": "5mb"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "serve": {
+                    "builder": "@angular-devkit/build-angular:dev-server",
+                    "options": {
+                        "browserTarget": "haisl-manager:build",
+                        "proxyConfig": "apps/haisl-manager/proxy.conf.json"
+                    },
+                    "configurations": {
+                        "production": {
+                            "browserTarget": "haisl-manager:build:production"
+                        }
+                    }
+                },
+                "extract-i18n": {
+                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "options": {
+                        "browserTarget": "haisl-manager:build"
+                    }
+                },
+                "lint": {
+                    "builder": "@angular-devkit/build-angular:tslint",
+                    "options": {
+                        "tsConfig": [
+                            "apps/haisl-manager/tsconfig.app.json",
+                            "apps/haisl-manager/tsconfig.spec.json"
+                        ],
+                        "exclude": ["**/node_modules/**"]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "apps/haisl-manager/jest.config.js",
+                        "tsConfig": "apps/haisl-manager/tsconfig.spec.json",
+                        "setupFile": "apps/haisl-manager/src/test-setup.ts"
+                    }
+                }
+            }
+        },
+        "haisl-manager-e2e": {
+            "root": "apps/haisl-manager-e2e",
+            "sourceRoot": "apps/haisl-manager-e2e/src",
+            "projectType": "application",
+            "architect": {
+                "e2e": {
+                    "builder": "@nrwl/cypress:cypress",
+                    "options": {
+                        "cypressConfig": "apps/haisl-manager-e2e/cypress.json",
+                        "tsConfig": "apps/haisl-manager-e2e/tsconfig.e2e.json",
+                        "devServerTarget": "haisl-manager:serve"
+                    },
+                    "configurations": {
+                        "production": {
+                            "devServerTarget": "haisl-manager:serve:production"
+                        }
+                    }
+                },
+                "lint": {
+                    "builder": "@angular-devkit/build-angular:tslint",
+                    "options": {
+                        "tsConfig": "apps/haisl-manager-e2e/tsconfig.e2e.json"
+                    }
+                }
+            }
+        },
+        "api": {
+            "root": "apps/api",
+            "sourceRoot": "apps/api/src",
+            "projectType": "application",
+            "prefix": "api",
+            "schematics": {},
+            "architect": {
+                "build": {
+                    "builder": "@nrwl/node:build",
+                    "options": {
+                        "outputPath": "dist/apps/api",
+                        "main": "apps/api/src/main.ts",
+                        "tsConfig": "apps/api/tsconfig.app.json",
+                        "assets": ["apps/api/src/assets"]
+                    },
+                    "configurations": {
+                        "production": {
+                            "optimization": true,
+                            "extractLicenses": true,
+                            "inspect": false,
+                            "fileReplacements": [
+                                {
+                                    "replace": "apps/api/src/environments/environment.ts",
+                                    "with": "apps/api/src/environments/environment.prod.ts"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "serve": {
+                    "builder": "@nrwl/node:execute",
+                    "options": {
+                        "buildTarget": "api:build"
+                    }
+                },
+                "lint": {
+                    "builder": "@angular-devkit/build-angular:tslint",
+                    "options": {
+                        "tsConfig": [
+                            "apps/api/tsconfig.app.json",
+                            "apps/api/tsconfig.spec.json"
+                        ],
+                        "exclude": ["**/node_modules/**"]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "apps/api/jest.config.js",
+                        "tsConfig": "apps/api/tsconfig.spec.json"
+                    }
+                }
+            }
+        },
+        "api-interface": {
+            "root": "libs/shared/api-interface",
+            "sourceRoot": "libs/shared/api-interface/src",
+            "projectType": "library",
+            "schematics": {},
+            "architect": {
+                "lint": {
+                    "builder": "@angular-devkit/build-angular:tslint",
+                    "options": {
+                        "tsConfig": [
+                            "libs/shared/api-interface/tsconfig.lib.json",
+                            "libs/shared/api-interface/tsconfig.spec.json"
+                        ],
+                        "exclude": ["**/node_modules/**"]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "libs/shared/api-interface/jest.config.js",
+                        "tsConfig": "libs/shared/api-interface/tsconfig.spec.json"
+                    }
+                }
+            }
+        },
+        "angular-graphql": {
+            "projectType": "library",
+            "root": "libs/frontend/angular-graphql",
+            "sourceRoot": "libs/frontend/angular-graphql/src",
+            "prefix": "haisl-manager",
+            "architect": {
+                "lint": {
+                    "builder": "@angular-devkit/build-angular:tslint",
+                    "options": {
+                        "tsConfig": [
+                            "libs/frontend/angular-graphql/tsconfig.lib.json",
+                            "libs/frontend/angular-graphql/tsconfig.spec.json"
+                        ],
+                        "exclude": [
+                            "**/node_modules/**",
+                            "!libs/frontend/angular-graphql/**"
+                        ]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "libs/frontend/angular-graphql/jest.config.js",
+                        "tsConfig": "libs/frontend/angular-graphql/tsconfig.spec.json",
+                        "setupFile": "libs/frontend/angular-graphql/src/test-setup.ts"
+                    }
+                }
+            },
+            "schematics": {
+                "@nrwl/angular:component": {
+                    "styleext": "scss"
+                }
+            }
+        },
+        "angular-security": {
+            "projectType": "library",
+            "root": "libs/frontend/angular-security",
+            "sourceRoot": "libs/frontend/angular-security/src",
+            "prefix": "haisl-manager",
+            "architect": {
+                "lint": {
+                    "builder": "@angular-devkit/build-angular:tslint",
+                    "options": {
+                        "tsConfig": [
+                            "libs/frontend/angular-security/tsconfig.lib.json",
+                            "libs/frontend/angular-security/tsconfig.spec.json"
+                        ],
+                        "exclude": [
+                            "**/node_modules/**",
+                            "!libs/frontend/angular-security/**"
+                        ]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "libs/frontend/angular-security/jest.config.js",
+                        "tsConfig": "libs/frontend/angular-security/tsconfig.spec.json",
+                        "setupFile": "libs/frontend/angular-security/src/test-setup.ts"
+                    }
+                }
+            },
+            "schematics": {
+                "@nrwl/angular:component": {
+                    "styleext": "scss"
+                }
+            }
+        }
+    },
+    "cli": {
+        "warnings": {
+            "typescriptMismatch": false,
+            "versionMismatch": false
+        },
+        "defaultCollection": "@nrwl/angular"
+    },
+    "schematics": {
+        "@nrwl/angular:application": {
+            "unitTestRunner": "jest",
+            "e2eTestRunner": "cypress"
+        },
+        "@nrwl/angular:library": {
+            "unitTestRunner": "jest"
+        }
+    },
+    "defaultProject": "haisl-manager"
+}

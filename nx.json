@@ -1,0 +1,30 @@
+{
+    "npmScope": "haisl-manager",
+    "implicitDependencies": {
+        "angular.json": "*",
+        "package.json": "*",
+        "tsconfig.json": "*",
+        "tslint.json": "*",
+        "nx.json": "*"
+    },
+    "projects": {
+        "haisl-manager-e2e": {
+            "tags": []
+        },
+        "haisl-manager": {
+            "tags": []
+        },
+        "api": {
+            "tags": []
+        },
+        "api-interface": {
+            "tags": []
+        },
+        "angular-graphql": {
+            "tags": []
+        },
+        "angular-security": {
+            "tags": []
+        }
+    }
+}
