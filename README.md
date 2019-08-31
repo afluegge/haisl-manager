@@ -2,85 +2,58 @@
 [![Coverage Status](https://coveralls.io/repos/github/afluegge/haisl-manager/badge.svg?branch=master)](https://coveralls.io/github/afluegge/haisl-manager?branch=master)
 # HaislManager
 
-This project was generated using [Nx](https://nx.dev).
+`haisl-manager` is a vacation home manager that allows to manage multiple vacation homes.  It allows to manage vacation homes
+ from different clients.  `haisl-manager` not only manages the presentation of the vacation home, it also allows to keep
+ track of the comercial part of house management.
+ 
+ ## Building Blocks
 
-<p align="center"><img src="https://raw.githubusercontent.com/nrwl/nx/master/nx-logo.png" width="450"></p>
+### User Management
 
-🔎 **Nx is a set of Angular CLI power-ups for modern development.**
 
-## Quick Start & Documentation
+### Client Management
 
-[Nx Documentation](https://nx.dev)
 
-[30-minute video showing all Nx features](https://nx.dev/getting-started/what-is-nx)
+### Occupation Calendar
 
-[Interactive Tutorial](https://nx.dev/tutorial/01-create-application)
 
-## Adding capabilities to your workspace
+### Rental Management
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
 
-These capabilities include generating applications, libraries, .etc as well as the devtools to test, and build projects as well.
+### Image Management
 
-Below are some plugins which you can add to your workspace:
 
-- [Angular](https://angular.io)
-  - `ng add @nrwl/angular`
-- [React](https://reactjs.org)
-  - `ng add @nrwl/react`
-- Web (no framework frontends)
-  - `ng add @nrwl/web`
-- [Nest](https://nestjs.com)
-  - `ng add @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `ng add @nrwl/express`
-- [Node](https://nodejs.org)
-  - `ng add @nrwl/node`
+### Web-Site Management
 
-## Generate an application
 
-Run `ng g @nrwl/angular:app my-app` to generate an application.
+##Implementation Notes
 
-> You can use any of the plugins above to generate applications as well.
+### Debugging the NestJS Application
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
+To be able to debug the NestJS Application we need to run the Node Server that hosts the NestJS application in
+debug mode.  It is important to suspend NodeJS immediatly after start to be able to debug application startup code.
+This is done by starting the Node server with the command line option `inspect-brk`.  Optionally one can also
+specify the port on which the Chrome V8 engines debug service will listen wit command line option `port`.
 
-## Generate a library
+These settings must be done in the `angular.json` file.  See the angular.json file of this project for reference 
+(namely the definitions for the `serve` command of the `api` library project):
 
-Run `ng g @nrwl/angular:lib my-lib` to generate a library.
+```json
+"serve": {
+    "builder": "@nrwl/node:execute",
+    "options": {
+        "buildTarget": "api:build",
+        "inspect": "inspect-brk",
+        "port": 4711
+    }
+}
+```
 
-> You can also use any of the plugins above to generate libraries as well.
+To disable debugging, remove the `inspect` and `port` settings.
 
-Libraries are sharable across libraries and applications. They can be imported from `@haisl-manager/mylib`.
+Once these settings are done, everytime on calls `ng serve` the NestJS application starts up in debug mode, immediatly 
+suspends and waits for a debug client to attach.  The debug client will be the Webstorm IDE.
 
-## Development server
+#### Setting up a debug run configuration in Webstorm
 
-Run `ng serve my-app` for a dev server. Navigate to <http://localhost:4200/>. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng g component my-component --project=my-app` to generate a new component.
-
-## Build
-
-Run `ng build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `npm run affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `npm run affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Understand your workspace
-
-Run `npm run dep-graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev) to learn more.
+![run configuration](resources/screenshot.png)
