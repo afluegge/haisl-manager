@@ -152,6 +152,14 @@
                 "serve": {
                     "builder": "@nrwl/node:execute",
                     "options": {
+                        "buildTarget": "api:build",
+                        "inspect": "inspect-brk",
+                        "port": 4711
+                    }
+                },
+                "serve-non-debug": {
+                    "builder": "@nrwl/node:execute",
+                    "options": {
                         "buildTarget": "api:build"
                     }
                 },
