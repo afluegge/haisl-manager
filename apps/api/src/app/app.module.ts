@@ -1,5 +1,4 @@
 import { Module }         from "@nestjs/common";
-import { NestFactory }    from "@nestjs/core";
 import { GraphQLModule }  from "@nestjs/graphql";
 import { JwtModule }      from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
@@ -54,9 +53,4 @@ import { UserResolver }   from "./graphql/user.resolver";
 })
 export class AppModule
 {
-    constructor()
-    {
-        const path = __dirname;
-        console.log(`------> PATH: ${path}`);
-    }
 }
