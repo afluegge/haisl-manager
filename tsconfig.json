@@ -11,14 +11,8 @@
         "target": "es2015",
         "module": "esnext",
         "esModuleInterop": true,
-        "typeRoots": [
-            "node_modules/@types"
-        ],
-        "lib": [
-            "es2017",
-            "dom",
-            "esnext.asynciterable"
-        ],
+        "typeRoots": ["node_modules/@types"],
+        "lib": ["es2017", "dom", "esnext.asynciterable"],
         "skipLibCheck": true,
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
@@ -31,11 +25,9 @@
             ],
             "@haisl-manager/angular-security": [
                 "libs/frontend/angular-security/src/index.ts"
-            ]
+            ],
+            "@haisl-manager/test-helper": ["libs/test-helper/src/index.ts"]
         }
     },
-    "exclude": [
-        "node_modules",
-        "tmp"
-    ]
+    "exclude": ["node_modules", "tmp"]
 }

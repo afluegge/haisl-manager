@@ -274,6 +274,40 @@
                     "styleext": "scss"
                 }
             }
+        },
+        "test-helper": {
+            "projectType": "library",
+            "root": "libs/test-helper",
+            "sourceRoot": "libs/test-helper/src",
+            "prefix": "haisl-manager",
+            "architect": {
+                "lint": {
+                    "builder": "@angular-devkit/build-angular:tslint",
+                    "options": {
+                        "tsConfig": [
+                            "libs/test-helper/tsconfig.lib.json",
+                            "libs/test-helper/tsconfig.spec.json"
+                        ],
+                        "exclude": [
+                            "**/node_modules/**",
+                            "!libs/test-helper/**"
+                        ]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "libs/test-helper/jest.config.js",
+                        "tsConfig": "libs/test-helper/tsconfig.spec.json",
+                        "setupFile": "libs/test-helper/src/test-setup.ts"
+                    }
+                }
+            },
+            "schematics": {
+                "@nrwl/angular:component": {
+                    "styleext": "scss"
+                }
+            }
         }
     },
     "cli": {

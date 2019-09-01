@@ -25,6 +25,9 @@
         },
         "angular-security": {
             "tags": []
+        },
+        "test-helper": {
+            "tags": []
         }
     }
 }

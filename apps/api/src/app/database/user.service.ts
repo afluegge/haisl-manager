@@ -2,23 +2,24 @@ import { IUser }                                       from "@haisl-manager/api-
 import { Injectable }                                  from "@nestjs/common";
 import { InjectRepository }                            from "@nestjs/typeorm";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
+import { IUserService }                                from "./_user.service";
 import { User }                                        from "./entities/user.entity";
 
 @Injectable()
-export class UserService
+export class UserService implements IUserService
 {
     public constructor(@InjectRepository(User) private readonly userRepository: Repository<User>)
     {
     }
 
-    public async getAllUsers(skip?: number, take?: number): Promise<User[]>
+    async getAllUsers(skip?: number, take?: number): Promise<IUser[]>
     {
         const findOptions: FindManyOptions = { relations: ["roles"] };
 
-        if(skip)
+        if (skip)
             findOptions.skip = skip;
 
-        if(take)
+        if (take)
             findOptions.take = take;
 
         try
@@ -27,18 +28,18 @@ export class UserService
             const users: User[] = await this.userRepository.find(findOptions);
             return users;
         }
-        catch(err)
+        catch (err)
         {
             const i = err;
             throw err;
         }
     }
 
-    public async getUserById(id: number): Promise<IUser>
+    async getUserById(id: number): Promise<IUser>
     {
         const findOptions: FindOneOptions = {
             relations: ["roles"],
-            where:     {
+            where: {
                 id
             }
         };
@@ -46,11 +47,11 @@ export class UserService
         return await this.userRepository.findOne(findOptions);
     }
 
-    public async getUserByUsername(username: string): Promise<IUser>
+    async getUserByUsername(username: string): Promise<IUser>
     {
         const findOptions: FindOneOptions = {
             relations: ["roles"],
-            where:     {
+            where: {
                 username
             }
         };
@@ -58,11 +59,11 @@ export class UserService
         return await this.userRepository.findOne(findOptions);
     }
 
-    public async getUserByUsernamePwdHash(username: string, pwdHash: string): Promise<IUser>
+    async getUserByUsernamePwdHash(username: string, pwdHash: string): Promise<IUser>
     {
         const findOptions: FindOneOptions = {
             relations: ["roles"],
-            where:     {
+            where: {
                 username,
                 password: pwdHash
             }
@@ -71,11 +72,11 @@ export class UserService
         return await this.userRepository.findOne(findOptions);
     }
 
-    public async getUserByEmailPwdHash(email: string, pwdHash: string): Promise<IUser>
+    async getUserByEmailPwdHash(email: string, pwdHash: string): Promise<IUser>
     {
         const findOptions: FindOneOptions = {
             relations: ["roles"],
-            where:     {
+            where: {
                 email,
                 password: pwdHash
             }
@@ -84,11 +85,11 @@ export class UserService
         return await this.userRepository.findOne(findOptions);
     }
 
-    public async getUserByEmail(email: string): Promise<IUser>
+    async getUserByEmail(email: string): Promise<IUser>
     {
         const findOptions: FindOneOptions = {
             relations: ["roles"],
-            where:     {
+            where: {
                 email
             }
         };
@@ -96,23 +97,23 @@ export class UserService
         return await this.userRepository.findOne(findOptions);
     }
 
-    public async addUser(newUser: IUser): Promise<IUser>
+    async addUser(newUser: IUser): Promise<IUser>
     {
         return await this.userRepository.save(newUser);
     }
 
-    public async modifyUser(changedUser: IUser): Promise<IUser>
+    async modifyUser(changedUser: IUser): Promise<IUser>
     {
         await this.userRepository.update(changedUser.id, changedUser);
 
         return await this.getUserById(changedUser.id);
     }
 
-    public async removeUser(userId: number | number[]): Promise<void>
+    async removeUser(userId: number | number[]): Promise<void>
     {
         const usersToRemove: User[] = [];
 
-        if(!(userId instanceof Array))
+        if (!(userId instanceof Array))
         {
             const userToRemove = new User();
             userToRemove.id = userId;

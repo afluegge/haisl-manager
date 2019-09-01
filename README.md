@@ -1,5 +1,9 @@
 [![Build Status](https://travis-ci.org/afluegge/haisl-manager.svg?branch=master)](https://travis-ci.org/afluegge/haisl-manager)
 [![Coverage Status](https://coveralls.io/repos/github/afluegge/haisl-manager/badge.svg?branch=master)](https://coveralls.io/github/afluegge/haisl-manager?branch=master)
+![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability-percentage/afluegge/haisl-manager)
+![GitHub](https://img.shields.io/github/license/afluegge/haisl-manager)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/afluegge/haisl-manager)
+
 # HaislManager
 
 `haisl-manager` is a vacation home manager that allows to manage multiple vacation homes.  It allows to manage vacation homes
