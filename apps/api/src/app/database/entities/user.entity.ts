@@ -1,8 +1,9 @@
 import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { IEntity }                                                       from "../../../../../../libs/shared/api-interface/src/lib/dto/entity.interface";
 import { Role }                                                          from "./role.entity";
 
 @Entity("users")
-export class User
+export class User implements IEntity
 {
     @PrimaryGeneratedColumn()
     public id: number;

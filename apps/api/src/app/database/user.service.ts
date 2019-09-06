@@ -1,5 +1,5 @@
 import { IUser }                                       from "@haisl-manager/api-interface";
-import { Injectable }                                  from "@nestjs/common";
+import { Injectable, Logger }                          from "@nestjs/common";
 import { InjectRepository }                            from "@nestjs/typeorm";
 import { FindManyOptions, FindOneOptions, Repository } from "typeorm";
 import { IUserService }                                from "./_user.service";
@@ -8,8 +8,16 @@ import { User }                                        from "./entities/user.ent
 @Injectable()
 export class UserService implements IUserService
 {
+    private readonly logger: Logger;
+
     public constructor(@InjectRepository(User) private readonly userRepository: Repository<User>)
     {
+        this.logger = new Logger(UserService.name);
+
+        this.logger.log("----------> Going to throw up...");
+
+        const a: any = {};
+        a.boom();
     }
 
     async getAllUsers(skip?: number, take?: number): Promise<IUser[]>

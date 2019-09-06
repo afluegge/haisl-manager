@@ -1,18 +1,21 @@
-import { Module }         from "@nestjs/common";
-import { GraphQLModule }  from "@nestjs/graphql";
-import { JwtModule }      from "@nestjs/jwt";
-import { PassportModule } from "@nestjs/passport";
-import { TypeOrmModule }  from "@nestjs/typeorm";
-import { AppController }  from "./app.controller";
-import { AppService }     from "./app.service";
-import { ConfigService }  from "./common/config.service";
-import { Role }           from "./database/entities/role.entity";
-import { User }           from "./database/entities/user.entity";
-import { RoleService }    from "./database/role.service";
-import { UserService }    from "./database/user.service";
-import { RoleResolver }   from "./graphql/role.resolver";
-import { DateScalar }     from "./graphql/scalars/date.scalar";
-import { UserResolver }   from "./graphql/user.resolver";
+import { Module }                 from "@nestjs/common";
+import { APP_FILTER }             from "@nestjs/core";
+import { GraphQLModule }          from "@nestjs/graphql";
+import { JwtModule }              from "@nestjs/jwt";
+import { PassportModule }         from "@nestjs/passport";
+import { TypeOrmModule }          from "@nestjs/typeorm";
+import { AppController }          from "./app.controller";
+import { AppService }             from "./app.service";
+import { ConfigService }          from "./common/config.service";
+import { SentryAdapter }          from "./common/sentry-adapter";
+import { ShutdownHandlerService } from "./common/shutdown-handler.service";
+import { Role }                   from "./database/entities/role.entity";
+import { User }                   from "./database/entities/user.entity";
+import { RoleService }            from "./database/role.service";
+import { UserService }            from "./database/user.service";
+import { RoleResolver }           from "./graphql/role.resolver";
+import { DateScalar }             from "./graphql/scalars/date.scalar";
+import { UserResolver }           from "./graphql/user.resolver";
 
 @Module({
     imports:     [
@@ -34,21 +37,25 @@ import { UserResolver }   from "./graphql/user.resolver";
             typePaths:                   ["./**/*.graphql"],
             context:                     ({ req }) => ({ req })
         }),
-        PassportModule,
-        JwtModule.registerAsync({
-            imports: [AppModule],
-            useFactory: (configuration: ConfigService) => ({
-                secret: configuration.jwtSecret
-            }),
-            inject: [ConfigService]
-        })
+        // PassportModule,
+        // JwtModule.registerAsync({
+        //     imports: [AppModule],
+        //     useFactory: (configuration: ConfigService) => ({
+        //         secret: configuration.jwtSecret
+        //     }),
+        //     inject: [ConfigService]
+        // })
     ],
     controllers: [AppController],
     providers:   [
-        AppService, UserService, RoleService, DateScalar, UserResolver, RoleResolver,
+        AppService, ShutdownHandlerService, UserService, RoleService, DateScalar, UserResolver, RoleResolver,
         {
             provide: ConfigService,
             useValue: new ConfigService(`${process.env.NODE_ENV}.env`),
+        },
+        {
+            provide: APP_FILTER,
+            useClass: SentryAdapter
         }]
 })
 export class AppModule

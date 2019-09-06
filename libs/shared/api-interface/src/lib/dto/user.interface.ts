@@ -1,6 +1,7 @@
-import { IRole } from "./role.interface";
+import { IEntity } from "./entity.interface";
+import { IRole }   from "./role.interface";
 
-export interface IUser
+export interface IUser extends IEntity
 {
     id: number;
     username: string;
