@@ -3,6 +3,7 @@ import * as Joi                     from "@hapi/joi";
 import { DotenvParseOutput, parse } from "dotenv";
 import * as fs                      from "fs";
 import { HaislObject }              from "../_haisl.object";
+import { CryptoHelper }             from "../crypto-helper";
 
 
 export interface EnvConfig
@@ -30,7 +31,7 @@ export class ConfigService extends HaislObject
 
     public get jwtSecret(): string
     {
-        return this.envConfig.JWT_SECRET;
+        return CryptoHelper.decryptString(this.envConfig.JWT_SECRET, "jgqgwwdzzjkhad");
     }
 
     public get port(): number

@@ -13,6 +13,6 @@ export class GlobalErrorHandler extends HaislObject implements ExceptionFilter
     public catch(exception: unknown, host: ArgumentsHost): void
     {
         this.sentry.captureException(exception);
-        this.logger.error(exception);
+        this.logger.error(JSON.stringify(exception, null, 4));
     }
 }
