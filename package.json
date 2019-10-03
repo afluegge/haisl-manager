@@ -3,7 +3,20 @@
     "description": "A Vacation Home Manager.",
     "version": "0.0.1",
     "license": "MIT",
+    "homepage": "https://github.com/afluegge/haisl-manager",
+    "author": {
+        "name": "Andreas Flügge",
+        "email": "aflg1963@gmail.com"
+    },
+    "contributors": [],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/afluegge/haisl-manager.git"
+    },
     "private": true,
+    "sentry": {
+        "revision": "fa88dc6db6cc510e17b241e271418ea34f9bba74"
+    },
     "scripts": {
         "ng": "ng",
         "start client": "ng serve haisl-manager",
@@ -12,6 +25,9 @@
         "build server": "ng build api",
         "test client": "ng test haisl-manager",
         "test server": "ng test api",
+        "start release server": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ./scripts/sentry-begin-release.ps1 -projectName haisl-manager-server",
+        "finalize release server": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ./scripts/sentry-finalize-release.ps1 -projectName haisl-manager-server",
+        "upload source map files": "sentry-cli releases files \"fa88dc6db6cc510e17b241e271418ea34f9bba74\" upload-sourcemaps --log-level=debug ./dist/apps/api",
         "coverage": "jest --coverage --coverageReporters=text-lcov | coveralls",
         "lint": "nx lint && ng lint",
         "e2e": "ng e2e",
@@ -58,6 +74,7 @@
         "apollo-link": "^1.2.11",
         "apollo-server-express": "^2.8.1",
         "class-transformer": "^0.2.3",
+        "cli-color": "^1.4.0",
         "core-js": "^2.5.7",
         "graphql": "^14.4.2",
         "graphql-tag": "^2.10.0",
@@ -67,6 +84,7 @@
         "passport-jwt": "^4.0.0",
         "reflect-metadata": "^0.1.13",
         "rxjs": "~6.4.0",
+        "sprintf-js": "^1.1.2",
         "type-graphql": "^0.17.4",
         "typeorm": "^0.2.18",
         "zone.js": "^0.9.1"
@@ -89,18 +107,21 @@
         "@types/node": "~8.9.5",
         "@types/passport": "^1.0.0",
         "@types/passport-jwt": "^3.0.1",
+        "@types/sprintf-js": "^1.1.2",
         "codelyzer": "~5.0.1",
+        "coveralls": "3.0.6",
         "cypress": "~3.3.2",
         "dotenv": "^8.1.0",
         "jest": "24.1.0",
         "jest-preset-angular": "7.1.1",
         "nodemon": "^1.19.1",
         "prettier": "1.16.4",
+        "sentry-testkit": "^3.0.2",
         "ts-jest": "24.0.2",
         "ts-node": "~7.0.0",
         "tslint": "~5.11.0",
         "typescript": "~3.4.5",
-        "coveralls": "3.0.6"
+        "wait-for-expect": "^2.0.0"
     },
     "jest": {
         "preset": "jest-preset-angular",

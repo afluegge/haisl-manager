@@ -2,6 +2,14 @@
     "extends": "../../tslint.json",
     "rules": {
         "directive-selector": [true, "attribute", "haislManager", "camelCase"],
-        "component-selector": [true, "element", "haisl-manager", "kebab-case"]
+        "component-selector": [
+            true,
+            "element",
+            "haisl-manager",
+            "kebab-case"
+        ],
+        "nx-enforce-module-boundaries": [
+            false
+        ]
     }
 }

@@ -1,42 +1,39 @@
-import { Module }                 from "@nestjs/common";
-import { APP_FILTER }             from "@nestjs/core";
-import { GraphQLModule }          from "@nestjs/graphql";
-import { JwtModule }              from "@nestjs/jwt";
-import { PassportModule }         from "@nestjs/passport";
-import { TypeOrmModule }          from "@nestjs/typeorm";
-import { AppController }          from "./app.controller";
-import { AppService }             from "./app.service";
-import { ConfigService }          from "./common/config.service";
-import { SentryAdapter }          from "./common/sentry-adapter";
-import { ShutdownHandlerService } from "./common/shutdown-handler.service";
-import { Role }                   from "./database/entities/role.entity";
-import { User }                   from "./database/entities/user.entity";
-import { RoleService }            from "./database/role.service";
-import { UserService }            from "./database/user.service";
-import { RoleResolver }           from "./graphql/role.resolver";
-import { DateScalar }             from "./graphql/scalars/date.scalar";
-import { UserResolver }           from "./graphql/user.resolver";
+import {
+    DateScalar,
+    Role,
+    RoleResolver,
+    RoleService,
+    User,
+    UserResolver,
+    UserService
+}                                                                        from "@haisl-manager/backend/authentication";
+import { ConfigService, GlobalErrorHandler, HaislObject, SentryService } from "@haisl-manager/backend/common";
+import { Module }                                                        from "@nestjs/common";
+import { APP_FILTER }                                                    from "@nestjs/core";
+import { GraphQLModule }                                                 from "@nestjs/graphql";
+import { TypeOrmModule }                                                 from "@nestjs/typeorm";
+import { AppController }                                                 from "./app.controller";
 
 @Module({
-    imports:     [
+    imports: [
         TypeOrmModule.forRoot({
-            type:        "mysql",
-            host:        "localhost",
-            port:        3306,
-            username:    "goiser",
-            password:    "DgDtbWCLFGNHi8gqiqoY",
-            database:    "goiser",
-            entities:    [User, Role],
+            type: "mysql",
+            host: "localhost",
+            port: 3306,
+            username: "goiser",
+            password: "DgDtbWCLFGNHi8gqiqoY",
+            database: "goiser",
+            entities: [User, Role],
             synchronize: false
         }),
         TypeOrmModule.forFeature([User, Role]),
         GraphQLModule.forRoot({
-            debug:                       false,
-            playground:                  false,
+            debug: false,
+            playground: false,
             installSubscriptionHandlers: true,
-            typePaths:                   ["./**/*.graphql"],
-            context:                     ({ req }) => ({ req })
-        }),
+            typePaths: ["./**/*.graphql"],
+            context: ({ req }) => ({ req })
+        })
         // PassportModule,
         // JwtModule.registerAsync({
         //     imports: [AppModule],
@@ -47,17 +44,21 @@ import { UserResolver }           from "./graphql/user.resolver";
         // })
     ],
     controllers: [AppController],
-    providers:   [
-        AppService, ShutdownHandlerService, UserService, RoleService, DateScalar, UserResolver, RoleResolver,
+    providers: [
+        UserService, RoleService, DateScalar, UserResolver, RoleResolver, SentryService,
         {
             provide: ConfigService,
-            useValue: new ConfigService(`${process.env.NODE_ENV}.env`),
+            useValue: new ConfigService(`${process.env.NODE_ENV}.env`)
         },
         {
             provide: APP_FILTER,
-            useClass: SentryAdapter
+            useClass: GlobalErrorHandler
         }]
 })
-export class AppModule
+export class AppModule extends HaislObject
 {
+    constructor(sentry: SentryService)
+    {
+        super(sentry);
+    }
 }

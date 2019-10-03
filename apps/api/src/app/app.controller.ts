@@ -1,18 +1,27 @@
-import { Message }         from "@haisl-manager/api-interface";
-import { Controller, Get } from "@nestjs/common";
+import { HaislObject, SentryCategory, SentryService }          from "@haisl-manager/backend/common";
+import { Controller, OnApplicationBootstrap, OnModuleDestroy } from "@nestjs/common";
+import { Severity }                                            from "@sentry/types";
 
-import { AppService } from "./app.service";
 
 @Controller()
-export class AppController
+export class AppController extends HaislObject implements OnApplicationBootstrap, OnModuleDestroy
 {
-    constructor(private readonly appService: AppService)
+    constructor(sentry: SentryService)
     {
+        super(sentry);
     }
 
-    @Get("hello")
-    getData(): Message
+    onApplicationBootstrap(): any
     {
-        return this.appService.getData();
+        const message = "Bootstrapping HaislManager";
+        this.logger.log(`${message}...`);
+        this.sentry.addBreadcrumb(message, Severity.Info, SentryCategory.Bootstrap);
+    }
+
+    onModuleDestroy(): any
+    {
+        const message = "Shutdown HaislManager";
+        this.logger.log(`${message}...`);
+        this.sentry.addBreadcrumb(message, Severity.Info, SentryCategory.Bootstrap);
     }
 }

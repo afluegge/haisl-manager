@@ -7,7 +7,9 @@
         ]
     },
     "exclude": [
-        "**/*.spec.ts"
+        "**/*.spec.ts",
+        "**/*.mock.ts",
+        "../../libs/backend/authentication/src/lib/test/entity-factory.ts"
     ],
     "include": [
         "**/*.ts"

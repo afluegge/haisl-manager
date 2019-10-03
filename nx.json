@@ -8,26 +8,50 @@
         "nx.json": "*"
     },
     "projects": {
-        "haisl-manager-e2e": {
-            "tags": []
+        "api": {
+            "tags": [
+                "scope:server"
+            ]
         },
         "haisl-manager": {
-            "tags": []
+            "tags": [
+                "scope:client"
+            ]
         },
-        "api": {
-            "tags": []
+        "haisl-manager-e2e": {
+            "tags": [
+                "scope:client"
+            ]
         },
         "api-interface": {
-            "tags": []
+            "tags": [
+                "scope:shared"
+            ]
         },
         "angular-graphql": {
-            "tags": []
+            "tags": [
+                "scope:client"
+            ]
         },
         "angular-security": {
-            "tags": []
+            "tags": [
+                "scope:client"
+            ]
         },
         "test-helper": {
-            "tags": []
+            "tags": [
+                "scope:test"
+            ]
+        },
+        "backend-authentication": {
+            "tags": [
+                "scope:server"
+            ]
+        },
+        "backend-common": {
+            "tags": [
+                "scope:server"
+            ]
         }
     }
 }

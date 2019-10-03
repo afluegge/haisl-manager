@@ -149,7 +149,7 @@
                         }
                     }
                 },
-                "serve": {
+                "serve-disabled": {
                     "builder": "@nrwl/node:execute",
                     "options": {
                         "buildTarget": "api:build",
@@ -157,7 +157,7 @@
                         "port": 4711
                     }
                 },
-                "serve-non-debug": {
+                "serve": {
                     "builder": "@nrwl/node:execute",
                     "options": {
                         "buildTarget": "api:build"
@@ -300,6 +300,74 @@
                         "jestConfig": "libs/test-helper/jest.config.js",
                         "tsConfig": "libs/test-helper/tsconfig.spec.json",
                         "setupFile": "libs/test-helper/src/test-setup.ts"
+                    }
+                }
+            },
+            "schematics": {
+                "@nrwl/angular:component": {
+                    "styleext": "scss"
+                }
+            }
+        },
+        "backend-authentication": {
+            "projectType": "library",
+            "root": "libs/backend/authentication",
+            "sourceRoot": "libs/backend/authentication/src",
+            "prefix": "haisl-manager",
+            "architect": {
+                "lint": {
+                    "builder": "@angular-devkit/build-angular:tslint",
+                    "options": {
+                        "tsConfig": [
+                            "libs/backend/authentication/tsconfig.lib.json",
+                            "libs/backend/authentication/tsconfig.spec.json"
+                        ],
+                        "exclude": [
+                            "**/node_modules/**",
+                            "!libs/backend/authentication/**"
+                        ]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "libs/backend/authentication/jest.config.js",
+                        "tsConfig": "libs/backend/authentication/tsconfig.spec.json",
+                        "setupFile": "libs/backend/authentication/src/test-setup.ts"
+                    }
+                }
+            },
+            "schematics": {
+                "@nrwl/angular:component": {
+                    "styleext": "scss"
+                }
+            }
+        },
+        "backend-common": {
+            "projectType": "library",
+            "root": "libs/backend/common",
+            "sourceRoot": "libs/backend/common/src",
+            "prefix": "haisl-manager",
+            "architect": {
+                "lint": {
+                    "builder": "@angular-devkit/build-angular:tslint",
+                    "options": {
+                        "tsConfig": [
+                            "libs/backend/common/tsconfig.lib.json",
+                            "libs/backend/common/tsconfig.spec.json"
+                        ],
+                        "exclude": [
+                            "**/node_modules/**",
+                            "!libs/backend/common/**"
+                        ]
+                    }
+                },
+                "test": {
+                    "builder": "@nrwl/jest:jest",
+                    "options": {
+                        "jestConfig": "libs/backend/common/jest.config.js",
+                        "tsConfig": "libs/backend/common/tsconfig.spec.json",
+                        "setupFile": "libs/backend/common/src/test-setup.ts"
                     }
                 }
             },

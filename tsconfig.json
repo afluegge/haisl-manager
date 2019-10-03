@@ -26,7 +26,15 @@
             "@haisl-manager/angular-security": [
                 "libs/frontend/angular-security/src/index.ts"
             ],
-            "@haisl-manager/test-helper": ["libs/test-helper/src/index.ts"]
+            "@haisl-manager/test-helper": [
+                "libs/test-helper/src/index.ts"
+            ],
+            "@haisl-manager/backend/authentication": [
+                "libs/backend/authentication/src/index.ts"
+            ],
+            "@haisl-manager/backend/common": [
+                "libs/backend/common/src/index.ts"
+            ]
         }
     },
     "exclude": ["node_modules", "tmp"]
