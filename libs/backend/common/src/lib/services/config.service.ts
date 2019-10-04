@@ -24,6 +24,11 @@ export class ConfigService extends HaislObject
 {
     private readonly envConfig: EnvConfig;
 
+    public get jwtIssuer(): string
+    {
+        return "goiser-haisl.de";
+    }
+
     public get nodeEnv(): NodeEnv
     {
         return TypeUtils.stringToEnum(NodeEnv, this.envConfig.NODE_ENV) as unknown as NodeEnv;

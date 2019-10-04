@@ -1,3 +1,5 @@
+import { IUser }                from "@haisl-manager/api-interface";
+import { UserService }          from "@haisl-manager/backend/authentication";
 import { ConfigService }        from "@haisl-manager/backend/common";
 import { Injectable }           from "@nestjs/common";
 import { PassportStrategy }     from "@nestjs/passport";
@@ -6,10 +8,11 @@ import { ExtractJwt, Strategy } from "passport-jwt";
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy)
 {
-    constructor(private config: ConfigService)
+    constructor(private config: ConfigService, private userService: UserService)
     {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+            issuer: config.jwtIssuer,
             ignoreExpiration: false,
             secretOrKey: config.jwtSecret
         });
@@ -17,6 +20,9 @@ export class JwtStrategy extends PassportStrategy(Strategy)
 
     public async validate(payload: any)
     {
-        return { userId: payload.sub, username: payload.username };
+        const user: IUser = await this.userService.getUserById(payload.sub);
+
+        // return { userId: payload.sub, username: payload.username };
+        return user;
     }
 }

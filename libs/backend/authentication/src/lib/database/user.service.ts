@@ -30,6 +30,7 @@ export class UserService extends HaislObject implements IUserService
         // }
     }
 
+
     public async getAllUsers(skip?: number, take?: number): Promise<IUser[]>
     {
         this.sentry.addBreadcrumb("Repository: Getting all Users", Severity.Debug, SentryCategory.Repository);

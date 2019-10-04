@@ -5,6 +5,7 @@ import { GraphQLModule }       from "@nestjs/graphql";
 import { JwtModule }           from "@nestjs/jwt";
 import { PassportModule }      from "@nestjs/passport";
 import { TypeOrmModule }       from "@nestjs/typeorm";
+import * as uuid               from "uuid";
 import { BackendCommonModule } from "../../../common/src/lib/backend-common.module";
 import { AuthService }         from "./auth.service";
 import { RoleService }         from "./database/role.service";
@@ -26,11 +27,16 @@ import { LocalStrategy }       from "./local.strategy";
             context: ({ req }) => ({ req })
         }),
         BackendCommonModule,
-        PassportModule,
+        PassportModule.register({ defaultStrategy: 'jwt' }),
         JwtModule.registerAsync({
             imports: [BackendCommonModule],
-            useFactory: (configuration: ConfigService) => ({
-                secret: configuration.jwtSecret
+            useFactory: (config: ConfigService) => ({
+                secret: config.jwtSecret,
+                signOptions: {
+                    jwtid: uuid.v4(),
+                    issuer: config.jwtIssuer,
+                    expiresIn: "1d"
+                }
             }),
             inject: [ConfigService]
         })
