@@ -1,9 +1,11 @@
 import { HaislError }                                 from "@haisl-manager/api-interface";
 import { HaislObject, SentryCategory, SentryService } from "@haisl-manager/backend/common";
+import { UseGuards }                                  from "@nestjs/common";
 import { Args, Query, Resolver }                      from "@nestjs/graphql";
 import { Severity }                                   from "@sentry/types";
 import { User }                                       from "../database/entities/user.entity";
 import { UserService }                                from "../database/user.service";
+import { GqlAuthGuard }                               from "../gql.auth-guard";
 
 @Resolver(() => User)
 export class UserResolver extends HaislObject
@@ -13,6 +15,7 @@ export class UserResolver extends HaislObject
         super(sentry);
     }
 
+    @UseGuards(GqlAuthGuard)
     @Query("allUsers")
     public async allUsers(@Args("skip") skip?: number, @Args("take") take?: number): Promise<User[]>
     {

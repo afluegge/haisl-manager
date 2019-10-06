@@ -10,6 +10,7 @@ import { BackendCommonModule } from "../../../common/src/lib/backend-common.modu
 import { AuthService }         from "./auth.service";
 import { RoleService }         from "./database/role.service";
 import { UserService }         from "./database/user.service";
+import { GqlAuthGuard }        from "./gql.auth-guard";
 import { RoleResolver }        from "./graphql/role.resolver";
 import { DateScalar }          from "./graphql/scalars/date.scalar";
 import { UserResolver }        from "./graphql/user.resolver";
@@ -19,15 +20,7 @@ import { LocalStrategy }       from "./local.strategy";
 @Module({
     imports: [
         TypeOrmModule.forFeature([User, Role]),
-        GraphQLModule.forRoot({
-            debug: false,
-            playground: false,
-            installSubscriptionHandlers: true,
-            typePaths: ["./**/*.graphql"],
-            context: ({ req }) => ({ req })
-        }),
-        BackendCommonModule,
-        PassportModule.register({ defaultStrategy: 'jwt' }),
+        PassportModule.register({ defaultStrategy: "jwt" }),
         JwtModule.registerAsync({
             imports: [BackendCommonModule],
             useFactory: (config: ConfigService) => ({
@@ -39,10 +32,18 @@ import { LocalStrategy }       from "./local.strategy";
                 }
             }),
             inject: [ConfigService]
-        })
+        }),
+        GraphQLModule.forRoot({
+            context: ({ req }) => ({ req }),
+            debug: false,
+            playground: false,
+            installSubscriptionHandlers: true,
+            typePaths: ["./**/*.graphql"]
+        }),
+        BackendCommonModule,
     ],
-    exports: [UserService, RoleService, DateScalar, UserResolver, RoleResolver, AuthService],
-    providers: [UserService, RoleService, DateScalar, UserResolver, RoleResolver, AuthService, LocalStrategy, JwtStrategy],
+    exports: [UserService, RoleService, DateScalar, UserResolver, RoleResolver, AuthService, GqlAuthGuard],
+    providers: [UserService, RoleService, DateScalar, UserResolver, RoleResolver, AuthService, LocalStrategy, JwtStrategy, GqlAuthGuard],
     controllers: []
 })
 export class AuthenticationModule

@@ -149,7 +149,7 @@
                         }
                     }
                 },
-                "serve": {
+                "serve-disabled": {
                     "builder": "@nrwl/node:execute",
                     "options": {
                         "buildTarget": "api:build",
@@ -157,7 +157,7 @@
                         "port": 4711
                     }
                 },
-                "serve-disabled": {
+                "serve": {
                     "builder": "@nrwl/node:execute",
                     "options": {
                         "buildTarget": "api:build"
