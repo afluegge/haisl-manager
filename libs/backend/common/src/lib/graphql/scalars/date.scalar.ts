@@ -1,6 +1,7 @@
-import { HaislObject, SentryService } from "@haisl-manager/backend/common";
-import { CustomScalar, Scalar }       from "@nestjs/graphql";
-import { Kind }                       from "graphql";
+import { CustomScalar, Scalar } from "@nestjs/graphql";
+import { Kind }                 from "graphql";
+import { HaislObject }          from "../../_haisl.object";
+import { SentryService }        from "../../services/sentry.service";
 
 @Scalar("Date", () => Date)
 export class DateScalar extends HaislObject implements CustomScalar<string, Date>
@@ -24,7 +25,7 @@ export class DateScalar extends HaislObject implements CustomScalar<string, Date
 
     parseLiteral(ast: any): Date
     {
-        if(ast.kind === Kind.STRING)
+        if (ast.kind === Kind.STRING)
             return new Date(ast.value);
 
         return null;

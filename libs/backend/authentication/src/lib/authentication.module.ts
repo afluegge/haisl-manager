@@ -1,7 +1,6 @@
 import { Role, User }          from "@haisl-manager/backend/authentication";
 import { ConfigService }       from "@haisl-manager/backend/common";
 import { Module }              from "@nestjs/common";
-import { GraphQLModule }       from "@nestjs/graphql";
 import { JwtModule }           from "@nestjs/jwt";
 import { PassportModule }      from "@nestjs/passport";
 import { TypeOrmModule }       from "@nestjs/typeorm";
@@ -12,7 +11,6 @@ import { RoleService }         from "./database/role.service";
 import { UserService }         from "./database/user.service";
 import { GqlAuthGuard }        from "./gql.auth-guard";
 import { RoleResolver }        from "./graphql/role.resolver";
-import { DateScalar }          from "./graphql/scalars/date.scalar";
 import { UserResolver }        from "./graphql/user.resolver";
 import { JwtStrategy }         from "./jwt.strategy";
 import { LocalStrategy }       from "./local.strategy";
@@ -33,17 +31,10 @@ import { LocalStrategy }       from "./local.strategy";
             }),
             inject: [ConfigService]
         }),
-        GraphQLModule.forRoot({
-            context: ({ req }) => ({ req }),
-            debug: false,
-            playground: false,
-            installSubscriptionHandlers: true,
-            typePaths: ["./**/*.graphql"]
-        }),
-        BackendCommonModule,
+        BackendCommonModule
     ],
-    exports: [UserService, RoleService, DateScalar, UserResolver, RoleResolver, AuthService, GqlAuthGuard],
-    providers: [UserService, RoleService, DateScalar, UserResolver, RoleResolver, AuthService, LocalStrategy, JwtStrategy, GqlAuthGuard],
+    exports: [UserService, RoleService, UserResolver, RoleResolver, AuthService, GqlAuthGuard],
+    providers: [UserService, RoleService, UserResolver, RoleResolver, AuthService, LocalStrategy, JwtStrategy, GqlAuthGuard],
     controllers: []
 })
 export class AuthenticationModule

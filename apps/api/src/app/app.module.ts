@@ -2,6 +2,7 @@ import { Role, User }                                     from "@haisl-manager/b
 import { GlobalErrorHandler, HaislObject, SentryService } from "@haisl-manager/backend/common";
 import { Module }                                         from "@nestjs/common";
 import { APP_FILTER }                                     from "@nestjs/core";
+import { GraphQLModule }                                  from "@nestjs/graphql";
 import { TypeOrmModule }                                  from "@nestjs/typeorm";
 import { AuthenticationModule }                           from "../../../../libs/backend/authentication/src/lib/authentication.module";
 import { BackendCommonModule }                            from "../../../../libs/backend/common/src/lib/backend-common.module";
@@ -19,6 +20,13 @@ import { AppController }                                  from "./app.controller
             entities: [User, Role],
             synchronize: false
         }),
+        GraphQLModule.forRoot({
+            context: ({ req }) => ({ req }),
+            debug: false,
+            playground: false,
+            installSubscriptionHandlers: true,
+            typePaths: ["./**/*.graphql"]
+        }),
         AuthenticationModule,
         BackendCommonModule
     ],
@@ -27,7 +35,8 @@ import { AppController }                                  from "./app.controller
         {
             provide: APP_FILTER,
             useClass: GlobalErrorHandler
-        }]
+        }
+    ]
 })
 export class AppModule extends HaislObject
 {

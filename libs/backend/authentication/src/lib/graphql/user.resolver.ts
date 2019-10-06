@@ -43,6 +43,7 @@ export class UserResolver extends HaislObject
         return users;
     }
 
+    @UseGuards(GqlAuthGuard)
     @Query("userByName")
     public async userByName(@Args("username") username: string): Promise<User>
     {
@@ -54,6 +55,7 @@ export class UserResolver extends HaislObject
         return user;
     }
 
+    @UseGuards(GqlAuthGuard)
     @Query("userByEmail")
     public async userByEmail(@Args("email") email: string): Promise<User>
     {

@@ -1,6 +1,7 @@
 /****** Service Providers *********************************************************************************************/
 export { ConfigService }      from "./lib/services/config.service";
 export { SentryService }      from "./lib/services/sentry.service";
+export { DateScalar }         from "./lib/graphql/scalars/date.scalar";
 
 /****** Interfaces ****************************************************************************************************/
 
