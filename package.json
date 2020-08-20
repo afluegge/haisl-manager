@@ -73,7 +73,7 @@
         "apollo-client": "^2.6.0",
         "apollo-link": "^1.2.11",
         "apollo-server-express": "^2.8.1",
-        "bcrypt": "^3.0.6",
+        "bcrypt": "^5.0.0",
         "class-transformer": "^0.2.3",
         "cli-color": "^1.4.0",
         "core-js": "^2.5.7",
